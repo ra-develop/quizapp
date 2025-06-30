@@ -82,11 +82,12 @@ public class QuizController {
     public String registerUser(
             @RequestParam String username, // Username from the form
             @RequestParam String password, // Password from the form
-            @RequestParam String role // Role from the form
+            @RequestParam String role, // Role from the form
+            @RequestParam String email // Email from the form
     ) {
         // Register the user by storing their details in the HashMap
         try {
-            userDetailsService.registerUser(username, password, role);
+            userDetailsService.registerUser(username, password, role, email);
         } catch (Exception userExistsAlready) {
             // Redirect to the /register endpoint
             return "redirect:/register?error";
