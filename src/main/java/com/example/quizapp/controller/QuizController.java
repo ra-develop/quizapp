@@ -63,7 +63,7 @@ public class QuizController {
                 .orElse("USER"); // Default role if no authority is found
 
         // Redirect to the appropriate page based on the role
-        if (role.equals("ADMIN")) {
+        if (role.equals("ROLE_ADMIN")) {
             // Fetch the latest quizzes from the service
             List<Quiz> quizzes = questionsService.getQuizzesList();
 
@@ -138,7 +138,7 @@ public class QuizController {
                 .orElse("USER"); // Default role if no authority is found
 
         // Redirect to the appropriate page based on the role
-        if (role.equals("ADMIN")) {
+        if (role.equals("ROLE_ADMIN")) {
             quiz.setId(questionsService.getNextId());
             // Add the quiz to the service
             questionsService.addQuiz(quiz);
@@ -182,7 +182,7 @@ public class QuizController {
                 .orElse("USER"); // Default role if no authority is found
 
         // Redirect to the appropriate page based on the role
-        if (role.equals("ADMIN")) {
+        if (role.equals("ROLE_ADMIN")) {
             // Update the quiz in the service
             questionsService.editQuiz(quiz);
             // Redirect to the quiz list page
@@ -205,7 +205,7 @@ public class QuizController {
                 .orElse("USER"); // Default role if no authority is found
 
         // Redirect to the appropriate page based on the role
-        if (role.equals("ADMIN")) {
+        if (role.equals("ROLE_ADMIN")) {
             // Delete the quiz by ID
             questionsService.deleteQuiz(id);
             return "redirect:/home"; // Redirect to the quiz list page

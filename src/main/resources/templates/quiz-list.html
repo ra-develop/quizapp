@@ -6,8 +6,15 @@
     <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1>Quiz Management</h1>
+        <div>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
         <a th:href="@{/quizzes/add}" class="btn">Add New Quiz</a>
         <table>
             <thead>

@@ -6,26 +6,33 @@
         <link th:href="@{/css/style.css}" rel="stylesheet" />
     </head>
     <body>
+        <div class="header">
+            <h1>Quiz</h1>
+            <div>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
         <div class="container">
-        <h1>Quiz</h1>
-        <form th:action="@{/quizzes/submit}" method="post">
-            <div th:each="quiz, iterStat : ${quizzes}">
-            <h3 th:text="${iterStat.index + 1 + '. ' + quiz.question}"></h3>
-            <div th:each="option, optStat : ${quiz.options}">
-                <input
-                type="radio"
-                th:name="'answer_' + ${quiz.id}"
-                th:id="'option_' + ${quiz.id} + '_' + ${optStat.index}"
-                th:value="${optStat.index}"
-                />
-                <label
-                th:for="'option_' + ${quiz.id} + '_' + ${optStat.index}"
-                th:text="${option}"
-                ></label>
-            </div>
-            </div>
-            <button type="submit" class="btn">Submit Answers</button>
-        </form>
+            <form th:action="@{/quizzes/submit}" method="post">
+                <div th:each="quiz, iterStat : ${quizzes}">
+                <h3 th:text="${iterStat.index + 1 + '. ' + quiz.question}"></h3>
+                <div th:each="option, optStat : ${quiz.options}">
+                    <input
+                    type="radio"
+                    th:name="'answer_' + ${quiz.id}"
+                    th:id="'option_' + ${quiz.id} + '_' + ${optStat.index}"
+                    th:value="${optStat.index}"
+                    />
+                    <label
+                    th:for="'option_' + ${quiz.id} + '_' + ${optStat.index}"
+                    th:text="${option}"
+                    ></label>
+                </div>
+                </div>
+                <button type="submit" class="btn">Submit Answers</button>
+            </form>
         </div>
     </body>
 </html>
