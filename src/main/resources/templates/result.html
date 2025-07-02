@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Results</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Quiz Results</h1>
+        <div class="score">
+            <h2>Score: <span th:text="${score} + '/' + ${total}"></span></h2>
+        </div>
+        
+        <div th:each="result : ${results}">
+            <div th:class="${result.correct} ? 'result-correct' : 'result-incorrect'">
+                <h3 th:text="${result.question}"></h3>
+                <p>Your answer: <span th:text="${result.userAnswer}"></span></p>
+                <p>Correct answer: <span th:text="${result.correctAnswer}"></span></p>
+            </div>
+        </div>
+        
+        <a th:href="@{/quizzes}" class="btn">Take Another Quiz</a>
+        <a th:href="@{/logout}" class="btn">Logout</a>
+    </div>
+</body>
+</html>

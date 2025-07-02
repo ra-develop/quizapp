@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,9 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.security.core.Authentication;
 import com.example.quizapp.service.QuizUserDetailsService;
+
+import jakarta.validation.Valid;
+
 import com.example.quizapp.model.Quiz;
+import com.example.quizapp.model.User;
 import com.example.quizapp.service.QuestionsService;
 
 @Controller
@@ -39,6 +45,13 @@ public class QuizController {
         // Get the authenticated user's details
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        // Check if the user is authenticated
+        if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
+            // Redirect to the login page if the user is not authenticated
+            return "redirect:/login";
+        }
+
+
         // Get the username
         String username = authentication.getName();
         model.addAttribute("username", username);
@@ -56,14 +69,14 @@ public class QuizController {
 
             // Add the quizzes to the model
             model.addAttribute("quizzes", quizzes);
-            return "QuizList"; // Return the QuizList.html template
+            return "quiz-list"; // Return the QuizList.html template
         } else {
             // Fetch the latest quizzes from the service
             List<Quiz> quizzes = questionsService.getQuizzesList();
 
             // Add the quizzes to the model
             model.addAttribute("quizzes", quizzes);
-            return "Quiz"; // Return the Quiz.html template
+            return "quiz"; // Return the Quiz.html template
         }
     }
 
@@ -73,21 +86,34 @@ public class QuizController {
     }
 
     @GetMapping("/register")
-    public String register() {
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User(null, null, null, null));
         return "register"; // Returns the register.html template
     }
 
     // POST endpoint to handle user registration and auto-login
     @PostMapping("/register")
-    public String registerUser(
-            @RequestParam String username, // Username from the form
-            @RequestParam String password, // Password from the form
-            @RequestParam String role, // Role from the form
-            @RequestParam String email // Email from the form
-    ) {
+
+    public String handleRegistration(
+        @Valid User user,
+        BindingResult bindingResult,
+        Model model) {
+
+        // Check for validation errors
+        if (bindingResult.hasErrors()) {
+            return "register"; // Return to the form with error messages
+        }
+
+    // public String registerUser(
+    //         @RequestParam String username, // Username from the form
+    //         @RequestParam String password, // Password from the form
+    //         @RequestParam String role, // Role from the form
+    //         @RequestParam String email // Email from the form
+    // ) {
+
         // Register the user by storing their details in the HashMap
         try {
-            userDetailsService.registerUser(username, password, role, email);
+            userDetailsService.registerUser(user.getUsername(), user.getPassword(), user.getRole(), user.getEmail());
         } catch (Exception userExistsAlready) {
             // Redirect to the /register endpoint
             return "redirect:/register?error";
@@ -95,7 +121,7 @@ public class QuizController {
 
         // Authenticate the user programmatically
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password));
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
         // Set the authentication in the SecurityContext
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -104,13 +130,13 @@ public class QuizController {
         return "redirect:/login?success";
     }
 
-    @GetMapping("/addQuiz")
+    @GetMapping("/add-quiz")
     public String showAddQuizForm(Model model) {
         model.addAttribute("quiz", new Quiz()); // Add a new Quiz object to the model
-        return "addQuiz"; // Return the addQuiz.html template
+        return "add-quiz"; // Return the addQuiz.html template
     }
 
-    @PostMapping("/addQuiz")
+    @PostMapping("/add-quiz")
     public String addQuiz(@ModelAttribute Quiz quiz, Model model, Authentication authentication) {
         // Get the user's role
         String role = authentication.getAuthorities().stream()
@@ -134,12 +160,12 @@ public class QuizController {
             model.addAttribute("error", "You do not have permission to add a quiz.");
 
             // Redirect to the add quiz page
-            return "redirect:/addQuiz?error";
+            return "redirect:/add-quiz?error";
         }
     }
 
     // Display the edit quiz page
-    @GetMapping("/editQuiz/{id}")
+    @GetMapping("/edit-quiz/{id}")
     public String showEditQuizForm(@PathVariable("id") int id, Model model) {
         // Find the quiz by ID
         Quiz quiz = questionsService.getQuizById(id);
@@ -148,10 +174,10 @@ public class QuizController {
         model.addAttribute("quiz", quiz);
 
         // Return the editQuiz.html template
-        return "editQuiz";
+        return "edit-quiz";
     }
 
-    @PostMapping("/editQuestion")
+    @PostMapping("/edit-quiz")
     public String editQuestion(@ModelAttribute("quiz") Quiz quiz) {
         // Get the authenticated user's details
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -174,7 +200,7 @@ public class QuizController {
         }
     }
 
-    @GetMapping("/deleteQuiz/{id}")
+    @GetMapping("/delete-quiz/{id}")
     public String deleteQuiz(@PathVariable("id") int id, Model model) {
         // Get the authenticated user's details
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -195,7 +221,7 @@ public class QuizController {
         }
     }
 
-    @PostMapping("/submitQuiz")
+    @PostMapping("/submit-quiz")
     public String evaluateQuiz(@RequestParam Map<String, String> allParams, Model model) {
         int correctAnswers = 0;
         List<String> userAnswers = new ArrayList<>();

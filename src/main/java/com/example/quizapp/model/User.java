@@ -1,9 +1,24 @@
 package com.example.quizapp.model;
 
+import org.hibernate.validator.constraints.Length;
+
+import jakarta.validation.constraints.*;
+
 public class User {
+    
+    @NotBlank(message = "User name is required")
+    @Size(min = 3)
     private String username;
+    
+    @NotBlank(message = "Password is required")
+    @Size(min = 6)
     private String password;
+
+    @NotBlank(message = "Role is required")    
     private String role; // Add a role field
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
 
     public User(String username, String password, String role, String email) {

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Edit Quiz</title>
+        <link th:href="@{/css/style.css}" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="container">
+        <h1>Edit Quiz</h1>
+        <form
+            th:action="@{'/quizzes/edit/' + ${quiz.id}}"
+            th:object="${quiz}"
+            method="post"
+        >
+            <div class="form-group">
+            <label for="question">Question</label>
+            <input type="text" id="question" th:field="*{question}" required />
+            </div>
+
+            <div class="form-group">
+            <label>Options</label>
+            <div th:each="option, stat : *{options}">
+                <input
+                type="text"
+                th:field="*{options[__${stat.index}__]}"
+                required
+                th:placeholder="'Option ' + ${stat.index + 1}"
+                />
+            </div>
+            </div>
+
+            <div class="form-group">
+            <label for="correctAnswer">Correct Answer</label>
+            <select id="correctAnswer" th:field="*{correctAnswer}">
+                <option
+                th:each="i : ${#numbers.sequence(0, 3)}"
+                th:value="${i}"
+                th:text="'Option ' + ${i+1}"
+                th:selected="${i == quiz.correctAnswer}"
+                ></option>
+            </select>
+            </div>
+
+            <button type="submit" class="btn">Update Quiz</button>
+            <a th:href="@{/quizzes}" class="btn">Cancel</a>
+        </form>
+        </div>
+    </body>
+</html>
