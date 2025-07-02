@@ -60,10 +60,10 @@ public class QuizController {
         String role = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .findFirst()
-                .orElse("ROLE_USER"); // Default role if no authority is found
+                .orElse("USER"); // Default role if no authority is found
 
         // Redirect to the appropriate page based on the role
-        if (role.equals("ROLE_ADMIN")) {
+        if (role.equals("ADMIN")) {
             // Fetch the latest quizzes from the service
             List<Quiz> quizzes = questionsService.getQuizzesList();
 
@@ -142,10 +142,10 @@ public class QuizController {
         String role = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .findFirst()
-                .orElse("ROLE_USER"); // Default role if no authority is found
+                .orElse("USER"); // Default role if no authority is found
 
         // Redirect to the appropriate page based on the role
-        if (role.equals("ROLE_ADMIN")) {
+        if (role.equals("ADMIN")) {
             quiz.setId(questionsService.getNextId());
             // Add the quiz to the service
             questionsService.addQuiz(quiz);
@@ -186,10 +186,10 @@ public class QuizController {
         String role = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .findFirst()
-                .orElse("ROLE_USER"); // Default role if no authority is found
+                .orElse("USER"); // Default role if no authority is found
 
         // Redirect to the appropriate page based on the role
-        if (role.equals("ROLE_ADMIN")) {
+        if (role.equals("ADMIN")) {
             // Update the quiz in the service
             questionsService.editQuiz(quiz);
             // Redirect to the quiz list page
@@ -209,10 +209,10 @@ public class QuizController {
         String role = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .findFirst()
-                .orElse("ROLE_USER"); // Default role if no authority is found
+                .orElse("USER"); // Default role if no authority is found
 
         // Redirect to the appropriate page based on the role
-        if (role.equals("ROLE_ADMIN")) {
+        if (role.equals("ADMIN")) {
             // Delete the quiz by ID
             questionsService.deleteQuiz(id);
             return "redirect:/home"; // Redirect to the quiz list page
