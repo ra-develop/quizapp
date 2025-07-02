@@ -25,7 +25,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/register", "/login", "/css/**").permitAll() // Allow access to registration and login pages
+                        .requestMatchers("/register", "/login", "/css/**", "/home").permitAll() // Allow access to registration and login pages
                         .requestMatchers("/quiz-list", "/add-quiz", "/edit-quiz", "/delete-quiz").hasRole("ADMIN") // Restrict /admin to users with the ADMIN role
                         .requestMatchers("/quiz", "/submit-quiz").hasRole("USER") // Restrict /viewer to users with the STAFF role
                         .anyRequest().authenticated() // Require authentication for all other endpoints

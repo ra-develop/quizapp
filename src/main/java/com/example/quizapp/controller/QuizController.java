@@ -104,13 +104,6 @@ public class QuizController {
             return "register"; // Return to the form with error messages
         }
 
-    // public String registerUser(
-    //         @RequestParam String username, // Username from the form
-    //         @RequestParam String password, // Password from the form
-    //         @RequestParam String role, // Role from the form
-    //         @RequestParam String email // Email from the form
-    // ) {
-
         // Register the user by storing their details in the HashMap
         try {
             userDetailsService.registerUser(user.getUsername(), user.getPassword(), user.getRole(), user.getEmail());
