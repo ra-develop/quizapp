@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.security.core.Authentication;
@@ -93,7 +94,6 @@ public class QuizController {
 
     // POST endpoint to handle user registration and auto-login
     @PostMapping("/register")
-
     public String handleRegistration(
         @Valid User user,
         BindingResult bindingResult,
@@ -121,6 +121,12 @@ public class QuizController {
 
         // Redirect to the /login endpoint
         return "redirect:/login?success";
+    }
+
+    @GetMapping("/quiz-list")
+    public String quizList() {
+        // Redirect to the quiz list page
+        return "redirect:/home";
     }
 
     @GetMapping("/add-quiz")
@@ -165,13 +171,15 @@ public class QuizController {
 
         // Add the quiz to the model
         model.addAttribute("quiz", quiz);
+        model.addAttribute("quizId", quiz.getId());
+
 
         // Return the editQuiz.html template
         return "edit-quiz";
     }
 
-    @PostMapping("/edit-quiz")
-    public String editQuestion(@ModelAttribute("quiz") Quiz quiz) {
+    @PostMapping("/edit-quiz/{id}")
+    public String editQuestion(@PathVariable("id") int id,@ModelAttribute("quiz") Quiz quiz) {
         // Get the authenticated user's details
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
