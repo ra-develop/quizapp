@@ -70,9 +70,9 @@ import java.util.Arrays;
 
 public class Quiz {
     private Integer id;
-    private String questionText;
+    private String question;
     private ArrayList<String> options; // Keep options as ArrayList<String>
-    private String correctAnswer;
+    private String answer;
 
     // No-argument constructor (required for Thymeleaf binding)
     public Quiz() {
@@ -80,11 +80,11 @@ public class Quiz {
     }
 
     // Constructor with parameters
-    public Quiz(Integer id, String questionText, ArrayList<String> options, String correctAnswer) {
+    public Quiz(Integer id, String question, ArrayList<String> options, String answer) {
         this.id = id;
-        this.questionText = questionText;
+        this.question = question;
         this.options = options;
-        this.correctAnswer = correctAnswer;
+        this.answer = answer;
     }
 
     // Getters and Setters
@@ -96,12 +96,12 @@ public class Quiz {
         this.id = id;
     }
 
-    public String getQuestionText() {
-        return questionText;
+    public String getQuestion() {
+        return question;
     }
 
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
+    public void setQuestion(String question) {
+        this.question = question;
     }
 
     public ArrayList<String> getOptions() {
@@ -122,19 +122,19 @@ public class Quiz {
         this.options = new ArrayList<>(Arrays.asList(optionsString.split(",")));
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
+    public String getAnswer() {
+        return answer;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     @Override
     public String toString() {
         return ("ID: " + id +
-                "\nQuestion: " + questionText +
+                "\nQuestion: " + question +
                 "\nOptions: " + options +
-                "\nCorrect Answer: " + correctAnswer);
+                "\nCorrect Answer: " + answer);
     }
 }

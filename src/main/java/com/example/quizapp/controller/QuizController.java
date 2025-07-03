@@ -224,7 +224,7 @@ public class QuizController {
         for (int i = 0; i < quizzes.size(); i++) {
             String userAnswer = allParams.get("answer" + i); // Get the answer for question i
             userAnswers.add(userAnswer); // Store user's answer
-            if (quizzes.get(i).getCorrectAnswer().equals(userAnswer)) {
+            if (quizzes.get(i).getAnswer().equals(userAnswer)) {
                 correctAnswers++;
             }
         }

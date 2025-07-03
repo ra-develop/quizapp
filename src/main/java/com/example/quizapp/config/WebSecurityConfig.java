@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/register", "/login", "/css/**", "/home").permitAll() // Allow access to registration and login pages
                         .requestMatchers("/quiz-list", "/add-quiz", "/edit-quiz", "/delete-quiz").hasRole("ADMIN") // Restrict /admin to users with the ADMIN role
-                        .requestMatchers("/quiz", "/submit-quiz").hasRole("USER") // Restrict /viewer to users with the STAFF role
+                        .requestMatchers("/quiz", "/submit-quiz", "result").hasRole("USER") // Restrict /viewer to users with the STAFF role
                         .anyRequest().authenticated() // Require authentication for all other endpoints
                 )
                 .formLogin(form -> form

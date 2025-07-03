@@ -64,7 +64,7 @@ public class QuestionsService {
 		int result = 0;
 		for (Quiz quiz: list){			
 			Quiz quizInList = questions.get(quiz.getId());
-			if(quizInList.getCorrectAnswer().equals(quiz.getCorrectAnswer())) {
+			if(quizInList.getAnswer().equals(quiz.getAnswer())) {
 				result++;
 			}
 		}

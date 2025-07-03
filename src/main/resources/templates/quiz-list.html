@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="container">
-        <a th:href="@{/quizzes/add}" class="btn">Add New Quiz</a>
+        <a th:href="@{/add-quiz}" class="btn">Add New Quiz</a>
         <table>
             <thead>
                 <tr>
@@ -27,8 +27,8 @@
                 <tr th:each="quiz : ${quizzes}">
                     <td th:text="${quiz.question}"></td>
                     <td>
-                        <a th:href="@{'/quizzes/edit/' + ${quiz.id}}" class="btn">Edit</a>
-                        <a th:href="@{'/quizzes/delete/' + ${quiz.id}}" class="btn danger">Delete</a>
+                        <a th:href="@{'/edit-quiz/' + ${quiz.id}}" class="btn">Edit</a>
+                        <a th:href="@{'/delete-quiz/' + ${quiz.id}}" class="btn danger">Delete</a>
                     </td>
                 </tr>
             </tbody>

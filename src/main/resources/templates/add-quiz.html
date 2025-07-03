@@ -8,7 +8,7 @@
     <body>
         <div class="container">
         <h1>Add New Quiz</h1>
-        <form th:action="@{/quizzes/add}" th:object="${quiz}" method="post">
+        <form th:action="@{/add-quiz}" th:object="${quiz}" method="post">
             <div class="form-group">
             <label for="question">Question</label>
             <input type="text" id="question" th:field="*{question}" required />
@@ -27,8 +27,8 @@
             </div>
 
             <div class="form-group">
-            <label for="correctAnswer">Correct Answer</label>
-            <select id="correctAnswer" th:field="*{correctAnswer}">
+            <label for="answer">Correct Answer</label>
+            <select id="answer" th:field="*{answer}">
                 <option
                 th:each="i : ${#numbers.sequence(0, 3)}"
                 th:value="${i}"
@@ -38,7 +38,7 @@
             </div>
 
             <button type="submit" class="btn">Save Quiz</button>
-            <a th:href="@{/quizzes}" class="btn">Cancel</a>
+            <a th:href="@{/quiz-list}" class="btn">Cancel</a>
         </form>
         </div>
     </body>
