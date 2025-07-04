@@ -7,21 +7,40 @@
 </head>
 <body>
     <div class="container">
-        <h1>Your Quiz Results</h1>
-        <div class="score">
-            <h2>Score: <span th:text="${score} + '/' + ${total}"></span></h2>
-        </div>
-        
-        <div th:each="result : ${results}">
-            <div th:class="${result.correct} ? 'result-correct' : 'result-incorrect'">
-                <h3 th:text="${result.question}"></h3>
-                <p>Your answer: <span th:text="${result.userAnswer}"></span></p>
-                <p>Correct answer: <span th:text="${result.correctAnswer}"></span></p>
+        <div class="header">
+            <h1>Your Quiz Results</h1>
+            <div>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Logout</button>
+                </form>
             </div>
         </div>
+        <div class="score">
+            <h2>Your scored: <span th:text="${correctAnswers} + ' out of ' + ${totalQuestions}"></span></h2>
+        </div>
         
-        <a th:href="@{/quizzes}" class="btn">Take Another Quiz</a>
-        <a th:href="@{/logout}" class="btn">Logout</a>
+
+        <div th:each="quiz, iterStat : ${quizzes}">
+            <h3 th:text="${'Question ' + (iterStat.index + 1) + ': ' + quiz.question}"></h3>
+
+            <!-- Correct answer (green styling) -->
+            <p th:if="${quiz.options[userAnswers[iterStat.index]] == quiz.options[quiz.answer]}"
+            style="color: #28a745; font-weight: bold; background-color: #e8f5e9; padding: 8px; border-radius: 4px;">
+                Your answer: <span th:text="${quiz.options[userAnswers[iterStat.index]]}"></span>
+                <br>
+                ✓ That's correct!
+            </p>
+
+            <!-- Incorrect answer (red styling) -->
+            <p th:unless="${quiz.options[userAnswers[iterStat.index]] == quiz.options[quiz.answer]}"
+            style="color: #dc3545; background-color: #ffebee; padding: 8px; border-radius: 4px; border-left: 3px solid #dc3545;">
+                ✗ Your answer: <span style="text-decoration: line-through;" th:text="${quiz.options[userAnswers[iterStat.index]]}"></span>
+                <br>
+                <span style="font-weight: bold;">Correct answer:</span> 
+                <span style="color: #28a745; font-weight: bold;" th:text="${quiz.options[quiz.answer]}"></span>
+            </p>
+        </div>
+        <a th:href="@{/home}" class="btn">Take Another Quiz</a>
     </div>
 </body>
 </html>

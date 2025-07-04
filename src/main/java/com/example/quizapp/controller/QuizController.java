@@ -229,10 +229,10 @@ public class QuizController {
         ArrayList<Quiz> quizzes = questionsService.getQuizzesList();
 
         // Iterate through the quizzes and compare answers
-        for (int i = 0; i < quizzes.size(); i++) {
-            String userAnswer = allParams.get("answer" + i); // Get the answer for question i
+        for (int i = 1; i <= quizzes.size(); i++) {
+            String userAnswer = allParams.get("answer_" + i); // Get the answer for question i
             userAnswers.add(userAnswer); // Store user's answer
-            if (quizzes.get(i).getAnswer().equals(userAnswer)) {
+            if (quizzes.get(i - 1).getAnswer().equals(userAnswer)) {
                 correctAnswers++;
             }
         }
