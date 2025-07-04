@@ -63,11 +63,18 @@ select {
     background-color: #2d2db0;
 }
 
+.submit-btn {
+    background-color: #2db03a;
+}
+.submit-btn:hover {
+    background-color: #2db03a;
+}
+
 .logout-btn {
-    background-color: #dc3545;
+    background-color: #2d2db0;
 }
 .logout-btn:hover {
-    background-color: #c82333;
+    background-color: #2d2db0;
 }
 
 .danger {

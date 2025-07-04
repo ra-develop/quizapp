@@ -27,7 +27,7 @@
                 <tr th:each="quiz : ${quizzes}">
                     <td th:text="${quiz.question}"></td>
                     <td>
-                        <a th:href="@{'/edit-quiz/' + ${quiz.id}}" class="btn">Edit</a>
+                        <a th:href="@{'/edit-quiz/' + ${quiz.id}}" class="btn submit-btn">Edit</a>
                         <a th:href="@{'/delete-quiz/' + ${quiz.id}}" class="btn danger">Delete</a>
                     </td>
                 </tr>
